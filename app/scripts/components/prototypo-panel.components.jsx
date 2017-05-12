@@ -33,6 +33,9 @@ export default class PrototypoPanel extends React.Component {
 
 		this.client.getStore('/prototypoStore', this.lifespan)
 			.onUpdate((head) => {
+				const canvasPanelWidth = (head.toJS().d.canvasPanelWidth === Object(head.toJS().d.canvasPanelWidth)) ? 50 : head.toJS().d.canvasPanelWidth;
+				const wordPanelHeight = (head.toJS().d.wordPanelHeight === Object(head.toJS().d.wordPanelHeight)) ? 20 : head.toJS().d.wordPanelHeight;
+
 				this.setState({
 					glyphs: head.toJS().d.glyphs,
 					glyphSelected: head.toJS().d.glyphSelected,
@@ -52,8 +55,8 @@ export default class PrototypoPanel extends React.Component {
 					uiInvertedWordColors: head.toJS().d.uiInvertedWordColors,
 					editingGroup: head.toJS().d.indivEdit,
 					indivMode: head.toJS().d.indivMode,
-					wordPanelHeight: head.toJS().d.wordPanelHeight || 20,
-					canvasPanelWidth: head.toJS().d.canvasPanelWidth || 50,
+					wordPanelHeight,
+					canvasPanelWidth,
 					indivCurrentGroup: head.toJS().d.indivCurrentGroup,
 					openRestrictedFeature: head.toJS().d.openRestrictedFeature,
 					restrictedFeatureHovered: head.toJS().d.restrictedFeatureHovered,
