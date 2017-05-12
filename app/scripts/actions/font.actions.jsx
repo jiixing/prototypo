@@ -729,10 +729,11 @@ export default {
 	'/reset-all-glyphs': ({force = true, label = 'reset all glyphs'}) => {
 		const db = (prototypoStore.get('variant') || {}).db;
 		const oldValues = undoableStore.get('controlsValues');
-		const manualChanges = {};
 		const newParams = {
 			...oldValues,
-			manualChanges,
+			manualChanges: {},
+			glyphSpecialProps: {},
+			glyphComponentChoice: {},
 		};
 		const patch = undoableStore.set('controlsValues', newParams).commit();
 
