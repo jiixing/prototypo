@@ -20,21 +20,21 @@ storiesOf('account/AccountManageSubUsers', module)
 	.add('loading', () => {
 		return (
 			<AccountManageSubUsers
-				members={[{email: 'user@example.com', status: 'loading'}]}
+				members={[{id: '1', email: 'user@example.com', status: 'loading'}]}
 			/>
 		);
 	})
 	.add('pending', () => {
 		return (
 			<AccountManageSubUsers
-				members={[{email: 'user@example.com', status: 'pending'}]}
+				members={[{id: '1', email: 'user@example.com', status: 'pending'}]}
 			/>
 		);
 	})
 	.add('active', () => {
 		return (
 			<AccountManageSubUsers
-				members={[{email: 'user@example.com', status: 'active'}]}
+				members={[{id: '1', email: 'user@example.com', status: 'active'}]}
 			/>
 		);
 	})
@@ -46,7 +46,7 @@ storiesOf('account/AccountManageSubUsers', module)
 	.add('removable', () => {
 		return (
 			<AccountManageSubUsers
-				members={[{email: 'user@example.com', status: 'active'}]}
+				members={[{id: '1', email: 'user@example.com', status: 'active'}]}
 				onRemoveUser={action('on-remove-user')}
 			/>
 		);
@@ -62,7 +62,7 @@ storiesOf('account/AccountManageSubUsers', module)
 		return (
 			<AccountManageSubUsers
 				max={5}
-				members={[{email: 'user@example.com', status: 'active'}, {email: 'user2@example.com', status: 'active'}]}
+				members={[{id: '1', email: 'user@example.com', status: 'active'}, {id: '2', email: 'user2@example.com', status: 'active'}]}
 				onAddUser={action('on-add-user')}
 				onRemoveUser={action('on-remove-user')}
 			/>
@@ -72,7 +72,7 @@ storiesOf('account/AccountManageSubUsers', module)
 		return (
 			<AccountManageSubUsers
 				max={2}
-				members={[{email: 'user@example.com', status: 'active'}, {email: 'user2@example.com', status: 'active'}]}
+				members={[{id: '1', email: 'user@example.com', status: 'active'}, {id: '2', email: 'user2@example.com', status: 'active'}]}
 				onAddUser={action('on-add-user')}
 				onRemoveUser={action('on-remove-user')}
 			/>

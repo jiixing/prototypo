@@ -53,6 +53,7 @@ class MemberRow extends React.Component {
 					{filter
 						? member.email.split(new RegExp(`(${filter})`)).map(text => (
 							<span
+								key={text}
 								className={
 										new RegExp(`(${filter})`).test(text) ? 'sortable-table-cell-filter' : ''
 									}
@@ -388,7 +389,7 @@ export class AccountManageSubUsers extends React.Component {
 									</td>
 								</tr>}
 							{filteredMembers.map(member => (
-								<MemberRow member={member} filter={filter} onRemoveRow={this.handleRemoveButton} />
+								<MemberRow key={member.id} member={member} filter={filter} onRemoveRow={this.handleRemoveButton} />
 							))}
 					</FilterableTable>
 				</WaitForLoad>
