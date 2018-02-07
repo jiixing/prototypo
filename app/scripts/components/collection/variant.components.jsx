@@ -16,6 +16,7 @@ class Variant extends React.Component {
 		};
 
 		this.open = this.open.bind(this);
+		this.hostFont = this.hostFont.bind(this);
 		this.changeName = this.changeName.bind(this);
 		this.duplicate = this.duplicate.bind(this);
 		this.prepareDeleteOrDelete = this.prepareDeleteOrDelete.bind(this);
@@ -26,6 +27,11 @@ class Variant extends React.Component {
 
 	open() {
 		this.props.open(this.props.variant);
+		this.setState({showContextMenu: false});
+	}
+
+	hostFont() {
+		this.props.hostFont(this.props.variant);
 		this.setState({showContextMenu: false});
 	}
 
@@ -94,6 +100,9 @@ class Variant extends React.Component {
 				</Button>
 				<ViewPanelsMenu show={this.state.showContextMenu} toggle={this.toggleContextMenu}>
 					<div className="variant-info-container">
+						<ContextualMenuItem onClick={this.hostFont}>
+							Get link
+						</ContextualMenuItem>
 						<ContextualMenuItem onClick={this.changeName}>
 							Change variant name
 						</ContextualMenuItem>

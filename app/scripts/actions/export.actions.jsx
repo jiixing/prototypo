@@ -57,6 +57,52 @@ export default {
 
 		localServer.dispatchUpdate('/prototypoStore', patch);
 	},
+	'/generate-otf': ({familyName = 'font', variantName = 'regular', resolve, reject}) => {
+		const exporting = prototypoStore.get('export');
+
+		if (exporting) {
+			reject('Already exporting...');
+			return;
+		}
+
+		const plan = HoodieApi.instance.plan;
+		const credits = prototypoStore.get('credits');
+
+		// forbid export without plan
+		if (!exportAuthorized(plan, credits)) {
+			reject('Not authorized exporting...');
+			return;
+		}
+
+		localClient.dispatchAction('/store-value-font', {
+			hostTag: true,
+			hostTagResolver: resolve,
+		});
+
+		localClient.dispatchAction('/exporting', {exporting: true});
+
+		const family = prototypoStore.get('family').name ? prototypoStore.get('family').name.replace(/\s/g, '-') : familyName;
+		const style = prototypoStore.get('variant').name ? prototypoStore.get('variant').name.replace(/\s/g, '-') : variantName;
+
+		const name = {
+			family,
+			style: `${style.toLowerCase()}`,
+		};
+
+		exportingError = setTimeout(() => {
+			localClient.dispatchAction('/exporting', {exporting: false, errorExport: true});
+			reject('Error when exporting');
+		}, 10000);
+
+		localClient.dispatchAction('/store-value-font', {
+			exportName: name,
+			exportMerged: true,
+			exportValues: undefined,
+			exportEmail: HoodieApi.instance.email,
+			hostTag: true,
+			hostTagResolver: resolve,
+		});
+	},
 	'/export-otf': ({merged, familyName = 'font', variantName = 'regular', exportAs}) => {
 		const exporting = prototypoStore.get('export');
 

@@ -489,6 +489,8 @@ export default class PrototypoCanvas extends React.Component {
 					resetView={this.reset}
 					exportTag={this.state.exportPlease}
 					exportGlyphrTag={this.state.exportGlyphrTag}
+					hostTag={this.state.hostTag}
+					hostTagResolver={this.state.hostTagResolver || (() => {console.log('not the resolver')})}
 					exportName={this.state.exportName}
 					exportMerged={this.state.exportMerged}
 					exportValues={this.state.exportValues}
