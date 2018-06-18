@@ -8,6 +8,7 @@ import {indivGroupsEditionTutorialLabel} from '../helpers/joyride.helpers.js';
 import SliderHelpText from '../../images/sliders/helpText.json';
 
 import SliderController from './slider-controller.components';
+import { letProto } from 'rxjs/operator/let';
 
 export class Sliders extends React.PureComponent {
 	constructor(props) {
@@ -55,16 +56,20 @@ export class Sliders extends React.PureComponent {
 		if (!this.state.values) {
 			return false;
 		}
-
+		const sliders = [];
+		let lastGroup = this.props.params[0].group;
 		const {advancedMode} = this.props;
-
-		const sliders = this.props.params.map((param, i) => {
+		this.props.params.forEach((param, i) => {
 			const individualized = this.props.indivEdit;
 			let value;
 			let paramToUse = {};
 			if (!this.props.advancedMode && param.advanced) {
 				return false;
 			};
+			if (param.group !== lastGroup) {
+				sliders.push(<div className='slider-divider' />);
+				lastGroup = param.group;
+			}
 			if (
 				this.props.indivMode
 				&& this.props.indivEdit
@@ -109,8 +114,8 @@ export class Sliders extends React.PureComponent {
 
 			const isRadio = paramToUse.controlType === 'radio';
 
-			return isRadio ? (
-				<RadioSlider
+			if(isRadio) {
+				sliders.push(<RadioSlider
 					disabled={paramToUse.disabled}
 					init={paramToUse.init}
 					label={paramToUse.label}
@@ -126,27 +131,30 @@ export class Sliders extends React.PureComponent {
 					individualized={individualized}
 					controlType={paramToUse.controlType}
 					radioValues={paramToUse.radioValues}
-				/>
-			) : (
-				<Slider
-					subscription={this.state.subscription}
-					credits={this.props.credits}
-					disabled={paramToUse.disabled}
-					init={paramToUse.init}
-					label={paramToUse.label}
-					max={paramToUse.max}
-					maxAdvised={paramToUse.maxAdvised}
-					min={paramToUse.min}
-					minAdvised={paramToUse.minAdvised}
-					name={paramToUse.name}
-					child={paramToUse.child}
-					key={paramToUse.name + i}
-					value={value}
-					state={paramToUse.state}
-					individualized={individualized}
-					advanced={advancedMode}
-				/>
-			);
+				/>);
+			}
+			else {
+				sliders.push(
+					<Slider
+						subscription={this.state.subscription}
+						credits={this.props.credits}
+						disabled={paramToUse.disabled}
+						init={paramToUse.init}
+						label={paramToUse.label}
+						max={paramToUse.max}
+						maxAdvised={paramToUse.maxAdvised}
+						min={paramToUse.min}
+						minAdvised={paramToUse.minAdvised}
+						name={paramToUse.name}
+						child={paramToUse.child}
+						key={paramToUse.name + i}
+						value={value}
+						state={paramToUse.state}
+						individualized={individualized}
+						advanced={advancedMode}
+					/>,
+				);
+			}
 		});
 
 		return <div className="sliders">{sliders}</div>;
